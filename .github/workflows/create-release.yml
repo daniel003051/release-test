@@ -5,11 +5,19 @@ on:
     tags:
       - 'v*.*.*'
 
+permissions:
+  contents: write  # 確保有足夠權限創建 Release
+
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - name: 'Checkout code'
+        uses: actions/checkout@v2
+
       - name: 'Create Release'
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 使用 GitHub 提供的 token
